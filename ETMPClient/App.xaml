@@ -1,0 +1,69 @@
+<Application x:Class="ETMPClient.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ETMPClient"
+             xmlns:views="clr-namespace:ETMPClient.Views"
+             xmlns:controls="clr-namespace:ETMPClient.Controls"
+             xmlns:viewModels="clr-namespace:ETMPClient.ViewModels"
+             xmlns:converters="clr-namespace:ETMPClient.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Themes/MinimalTheme.xaml"/>
+                <ResourceDictionary Source="./Themes/CloseButton.xaml"/>
+                <ResourceDictionary Source="./Themes/FlatButton.xaml"/>
+                <ResourceDictionary Source="./Themes/MinMaxButton.xaml"/>
+                <ResourceDictionary Source="./Themes/PrettyButton.xaml"/>
+                <ResourceDictionary Source="./Themes/TransparentButton.xaml"/>
+                <ResourceDictionary Source="./Themes/GenericButton.xaml"/>
+                <ResourceDictionary Source="./Themes/RoundButton.xaml"/>
+                <ResourceDictionary Source="./Themes/PrettySlider.xaml"/>
+                <ResourceDictionary Source="./Themes/PrettyScrollbar.xaml"/>
+                <ResourceDictionary Source="./Themes/PrettyDataGrid.xaml"/>
+                <ResourceDictionary Source="./Themes/NewTextBox.xaml"/>
+                <ResourceDictionary Source="./Themes/Loading.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:BoolToVisConverter x:Key="BoolToVis"/>
+            <converters:InverseBoolToVisConverter x:Key="InverseBoolToVis"/>
+            <converters:EnumToBoolConverter x:Key="EnumToBoolConverter"/>
+            <converters:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
+            <converters:ColorBrightnessConverter x:Key="ColorBrightnessConverter"/>
+
+            <FontFamily x:Key="Urbanist">pack://application:,,,/Fonts/Urbanist/#Urbanist</FontFamily>
+            <FontFamily x:Key="Midnight">pack://application:,,,/Fonts/Midnight/#Midnight</FontFamily>
+
+
+            <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
+                <views:HomeView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:PlaylistViewModel}">
+                <views:PlaylistView />
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type viewModels:LibraryViewModel}">
+                <views:LibraryView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+                <views:SettingsView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:EqualizerViewModel}">
+                <views:EqualizerView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:PlayerViewModel}">
+                <controls:PlayerControl />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:ToolbarViewModel}">
+                <controls:ToolbarControl />
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

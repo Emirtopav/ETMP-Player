@@ -1,0 +1,75 @@
+<UserControl x:Class="ETMPClient.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ETMPClient.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <!-- Removed RowDefinitions to allow full-screen Z-stack layout -->
+
+        <!-- Blurred Background with rounded corners -->
+        <Border CornerRadius="{Binding HomeCornerRadius}" ClipToBounds="True">
+            <Image Source="{Binding CoverArt, Converter={StaticResource ByteArrayToImageConverter}}" 
+                   Stretch="UniformToFill" 
+                   Opacity="0.4"
+                   RenderOptions.BitmapScalingMode="HighQuality">
+                <Image.Effect>
+                    <BlurEffect Radius="25"/>
+                </Image.Effect>
+            </Image>
+        </Border>
+        
+        <!-- Dark Overlay for Readability (Increased Contrast) with rounded corners -->
+        <Border Background="{StaticResource Brush.Base.Deep}" Opacity="0.8" CornerRadius="{Binding HomeCornerRadius}"/>
+
+        <!-- Centered Content -->
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- Album Art Card -->
+            <Border Width="300" Height="300" CornerRadius="20" Margin="0,0,0,30"
+                    Background="{StaticResource Brush.Base.Surface}">
+                 <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="40" ShadowDepth="10" Opacity="0.5"/>
+                </Border.Effect>
+                <Grid>
+                     <!-- Default ETMP Logo if no art -->
+                    <Image Source="/Images/etmp_logo.png" 
+                           Width="250" Height="250"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Opacity="0.8"/>
+                    
+                    <!-- Actual Art -->
+                    <Border CornerRadius="20" ClipToBounds="True">
+                        <Image Source="{Binding CoverArt, Converter={StaticResource ByteArrayToImageConverter}, NotifyOnTargetUpdated=True}" 
+                               Stretch="UniformToFill"
+                               RenderOptions.BitmapScalingMode="HighQuality">
+                            <Image.Triggers>
+                                <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Image.Triggers>
+                        </Image>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Song Info -->
+            <TextBlock Text="{Binding SongName}" 
+                       FontFamily="{StaticResource Urbanist}" FontWeight="Bold" FontSize="{Binding HomeTitleFontSize}" 
+                       Foreground="{StaticResource Brush.Text.Primary}" 
+                       TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,10"/>
+            
+            <TextBlock Text="{Binding ArtistName}" 
+                       FontFamily="{StaticResource Urbanist}" FontSize="{Binding HomeArtistFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource Brush.Text.Secondary}" 
+                       TextAlignment="Center" Opacity="0.75"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Midnight Theme Color Palette -->
+    
+    <!-- Base Colors -->
+    <SolidColorBrush x:Key="Brush.Base.Deep" Color="#0A0E27"/>
+    <SolidColorBrush x:Key="Brush.Base.Surface" Color="#141B3D"/>
+    <SolidColorBrush x:Key="Brush.Base.Elevated" Color="#1A2347"/>
+    
+    <!-- Accent Colors -->
+    <SolidColorBrush x:Key="Brush.Accent.Primary" Color="#5B8DEE"/>
+    <SolidColorBrush x:Key="Brush.Accent.Secondary" Color="#7BA3F7"/>
+    <SolidColorBrush x:Key="Brush.Accent.Hover" Color="#8FB5FF"/>
+    
+    <!-- Text Colors -->
+    <SolidColorBrush x:Key="Brush.Text.Primary" Color="#E8EAF6"/>
+    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="#B8BFDB"/>
+    <SolidColorBrush x:Key="Brush.Text.Muted" Color="#7A82A0"/>
+    <SolidColorBrush x:Key="Brush.Text.Disabled" Color="#4A5168"/>
+    
+    <!-- Border Colors -->
+    <SolidColorBrush x:Key="Brush.Border.Default" Color="#2A3454"/>
+    <SolidColorBrush x:Key="Brush.Border.Glass" Color="#205B8DEE"/>
+    <SolidColorBrush x:Key="Brush.Border.Subtle" Color="#1A2347"/>
+    
+    <!-- Interactive States -->
+    <SolidColorBrush x:Key="Brush.Hover.Background" Color="#1E2A4F"/>
+    <SolidColorBrush x:Key="Brush.Active.Background" Color="#253159"/>
+    <SolidColorBrush x:Key="Brush.Selected.Background" Color="#5B8DEE30"/>
+    
+</ResourceDictionary>

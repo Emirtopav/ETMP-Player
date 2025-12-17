@@ -1,0 +1,27 @@
+using ETMPClient.Services;
+using ETMPClient.Stores;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ETMPClient.Commands
+{
+    public class SwitchPageToHomeCommand : CommandBase
+    {
+        private readonly INavigationService _navigationService;
+        private readonly PlaylistBrowserNavigationStore _playlistBrowserNav;
+        public SwitchPageToHomeCommand(INavigationService navigationService, PlaylistBrowserNavigationStore playlistBrowserNav)
+        {
+            _navigationService = navigationService;
+            _playlistBrowserNav = playlistBrowserNav;
+        }
+
+        public override void Execute(object? parameter)
+        {
+            _playlistBrowserNav.BrowserPlaylistId = 0;
+            _navigationService.NavigateHome();
+        }
+    }
+}

@@ -1,0 +1,59 @@
+{
+  "AppName": "ETMP",
+  "Navigation": {
+    "Home": "Home",
+    "Library": "Library",
+    "Search": "Search",
+    "Equalizer": "Equalizer",
+    "Settings": "Settings",
+    "Playlists": "PLAYLISTS"
+  },
+  "Player": {
+    "NoSongPlaying": "No Song Playing",
+    "UnknownArtist": "Unknown Artist",
+    "Shuffle": "Shuffle",
+    "Repeat": "Repeat",
+    "RepeatOne": "Repeat One"
+  },
+  "Library": {
+    "Title": "LIBRARY",
+    "SearchPlaceholder": "Search songs...",
+    "NoSongs": "No songs in library",
+    "AddSongs": "Add songs to get started"
+  },
+  "Equalizer": {
+    "Title": "EQUALIZER",
+    "Preset": "Preset:",
+    "Reset": "Reset",
+    "Preamp": "PREAMP"
+  },
+  "Settings": {
+    "Title": "SETTINGS",
+    "VisualizerSensitivity": "Visualizer Sensitivity",
+    "VisualizerSensitivityDesc": "Adjust the reactivity gain of the audio visualizer.",
+    "VisualizerColor": "Visualizer Color",
+    "VisualizerOpacity": "Visualizer Opacity",
+    "VisualizerBrightness": "Visualizer Brightness",
+    "VisualizerBarThickness": "Visualizer Bar Thickness",
+    "VisualizerSpeed": "Visualizer Speed",
+    "Typography": "Typography",
+    "SongTitleSize": "Song Title Size",
+    "ArtistNameSize": "Artist Name Size",
+    "BackgroundCornerRadius": "Background Corner Radius",
+    "Appearance": "Appearance",
+    "DarkMode": "Dark Mode",
+    "GlassTransparency": "Glass Transparency",
+    "Language": "Language",
+    "About": "About",
+    "Version": "Version",
+    "Developer": "Developer"
+  },
+  "Common": {
+    "Close": "Close",
+    "Save": "Save",
+    "Cancel": "Cancel",
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "Add": "Add"
+  }
+}

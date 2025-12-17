@@ -1,0 +1,200 @@
+<UserControl x:Class="ETMPClient.Views.LibraryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ETMPClient.Views"
+             xmlns:conv="clr-namespace:ETMPClient.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <conv:LocalizeConverter x:Key="Localize"/>
+        
+        <!-- Glass ScrollBar -->
+         <Style TargetType="{x:Type ScrollBar}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource Brush.Accent.Secondary}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid>
+                            <Track Name="PART_Track" IsDirectionReversed="true">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineUpCommand" Opacity="0" Height="0"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb Background="{TemplateBinding Foreground}" Opacity="0.5"/>
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineDownCommand" Opacity="0" Height="0"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header / Add Button -->
+        <Grid Grid.Row="0" Margin="0,20,0,20">
+            <TextBlock Text="LIBRARY" FontFamily="{StaticResource Urbanist}" FontWeight="Bold" FontSize="28" Foreground="{StaticResource Brush.Text.Primary}" VerticalAlignment="Center"/>
+            
+            <Button Command="{Binding AddMusicCommand}" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    ToolTip="Add Music Folder"
+                    Foreground="{StaticResource Brush.Text.Primary}"
+                    Width="40" Height="40"
+                    Background="{StaticResource Brush.Base.Surface}"
+                    BorderBrush="{StaticResource Brush.Border.Glass}"
+                    BorderThickness="1">
+                <Button.Content>
+                    <TextBlock Text="&#xE8B7;" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
+                </Button.Content>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="20" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource Brush.Accent.Primary}"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <!-- Search Bar -->
+        <Border Grid.Row="1" Background="{StaticResource Brush.Base.Surface}" CornerRadius="15" 
+                BorderBrush="{StaticResource Brush.Border.Glass}" BorderThickness="1" 
+                Height="50" Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="../Icons/search.png" Width="20" Opacity="0.5" Margin="20,0,10,0"/>
+                <TextBox Grid.Column="1" 
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         Background="Transparent" 
+                         BorderThickness="0" 
+                         VerticalAlignment="Center"
+                         Foreground="{StaticResource Brush.Text.Primary}"
+                         FontSize="16"
+                         FontFamily="{StaticResource Urbanist}"
+                         CaretBrush="{StaticResource Brush.Accent.Primary}">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Grid>
+                                            <TextBlock Text="Search songs, artists, albums..." 
+                                                       Foreground="{StaticResource Brush.Text.Muted}" 
+                                                       Opacity="0.5" Margin="2,0,0,0"
+                                                       Visibility="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVis}}"
+                                                       IsHitTestVisible="False"/>
+                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+            </Grid>
+        </Border>
+
+        <!-- Empty State Message -->
+        <TextBlock Grid.Row="2" Text="No music found.&#x0a;Click the folder icon to add music." 
+                   TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Foreground="{StaticResource Brush.Text.Muted}" FontFamily="{StaticResource Urbanist}" FontSize="18" Opacity="0.5">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Songs.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <!-- Glass Song List -->
+        <ListView Grid.Row="2" ItemsSource="{Binding FilteredSongs}" 
+                  Background="Transparent" BorderThickness="0"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Padding="0,0,0,80"> <!-- Padding for bottom player -->
+            
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Margin" Value="0,0,0,10"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{StaticResource Brush.Border.Glass}" BorderThickness="1" Padding="15,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/> <!-- Icon -->
+                                            <ColumnDefinition Width="*"/>    <!-- Info -->
+                                            <ColumnDefinition Width="Auto"/> <!-- Duration -->
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!-- Album Art -->
+                                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="8" Background="{StaticResource Brush.Base.Surface}" Margin="0,0,15,0" ClipToBounds="True">
+                                            <Grid>
+                                                <!-- Fallback Icon -->
+                                                <TextBlock Text="&#xE8D6;" FontFamily="Segoe MDL2 Assets" FontSize="20" 
+                                                           Foreground="{StaticResource Brush.Accent.Primary}" 
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.3"/>
+                                                <!-- Album Cover -->
+                                                <Image Source="{Binding CoverArtData, Converter={StaticResource ByteArrayToImageConverter}}" 
+                                                       Stretch="UniformToFill"
+                                                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                                            </Grid>
+                                        </Border>
+
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Title}" 
+                                                       FontFamily="{StaticResource Urbanist}" FontWeight="Bold" FontSize="14" Foreground="{StaticResource Brush.Text.Primary}"
+                                                       TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Text="{Binding Artist}" 
+                                                       FontFamily="{StaticResource Urbanist}" FontSize="12" Foreground="{StaticResource Brush.Text.Muted}"/>
+                                        </StackPanel>
+
+                                        <Button Grid.ColumnSpan="3" Command="{Binding DataContext.PlaySongCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                CommandParameter="{Binding}"
+                                                Opacity="0" Background="Transparent"/>
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource Brush.Hover.Background}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</UserControl>

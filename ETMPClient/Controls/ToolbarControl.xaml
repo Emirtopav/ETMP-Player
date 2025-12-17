@@ -1,0 +1,103 @@
+<UserControl x:Class="ETMPClient.Controls.ToolbarControl"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:local="clr-namespace:ETMPClient.Controls"
+              xmlns:enums="clr-namespace:ETMPClient.Enums"
+              xmlns:conv="clr-namespace:ETMPClient.Converters"
+              mc:Ignorable="d" 
+              d:DesignHeight="600" d:DesignWidth="220">
+    
+    <UserControl.Resources>
+        <conv:LocalizeConverter x:Key="Localize"/>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Logo -->
+            <RowDefinition Height="Auto"/> <!-- Nav Items -->
+            <RowDefinition Height="*"/>    <!-- Playlists -->
+        </Grid.RowDefinitions>
+
+        <!-- Brand / Logo Area -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,20,0,30">
+            <Ellipse Width="10" Height="10" Fill="{StaticResource Brush.Accent.Primary}" Margin="0,0,10,0"/>
+            <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Navigation.Home}" FontFamily="{StaticResource Urbanist}" FontSize="14" Foreground="{StaticResource Brush.Text.Primary}" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Navigation Menu -->
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            
+            <!-- Home -->
+            <RadioButton Style="{StaticResource NavButtonStyle}" 
+                         Command="{Binding NavigateHome}"
+                         IsChecked="{Binding CurrentPage, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enums:PageType.Home}}">
+                 <StackPanel Orientation="Horizontal">
+                     <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Navigation.Home}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                 </StackPanel>
+            </RadioButton>
+
+            <!-- Library -->
+            <RadioButton Style="{StaticResource NavButtonStyle}" 
+                         Command="{Binding NavigateLibrary}"
+                         IsChecked="{Binding CurrentPage, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enums:PageType.Library}}">
+                 <StackPanel Orientation="Horizontal">
+                     <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Navigation.Library}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                 </StackPanel>
+            </RadioButton>
+
+
+             <!-- Equalizer -->
+             <RadioButton Style="{StaticResource NavButtonStyle}" 
+                          Command="{Binding NavigateEqualizer}"
+                          IsChecked="{Binding CurrentPage, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enums:PageType.Equalizer}}">
+                 <StackPanel Orientation="Horizontal">
+                     <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Navigation.Equalizer}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                 </StackPanel>
+             </RadioButton>
+
+             <!-- Settings -->
+            <RadioButton Style="{StaticResource NavButtonStyle}" 
+                         Command="{Binding NavigateSettings}"
+                         IsChecked="{Binding CurrentPage, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enums:PageType.Settings}}">
+                 <StackPanel Orientation="Horizontal">
+                     <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Navigation.Settings}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                 </StackPanel>
+            </RadioButton>
+
+        </StackPanel>
+
+        <!-- Playlists Header & List -->
+        <Grid Grid.Row="2" Margin="0,30,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Navigation.Playlists}" FontFamily="{StaticResource Urbanist}" FontWeight="Bold" FontSize="11" Foreground="{StaticResource Brush.Text.Muted}" Margin="20,20,0,10"/>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                 <ItemsControl ItemsSource="{Binding Playlists}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                             <Button Style="{StaticResource PlaylistButtonStyle}"
+                                     Command="{Binding DataContext.NavigatePlaylist, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                     CommandParameter="{Binding Id}"
+                                     Content="{Binding Name}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+             <Button Grid.Row="0" HorizontalAlignment="Right"
+                    Content="+" 
+                    Style="{StaticResource FlatButton}"
+                    Command="{Binding CreatePlaylist}"
+                    Foreground="{StaticResource Brush.Accent.Primary}"
+                    FontSize="16"
+                    Margin="0,-5,10,0"/>
+        </Grid>
+                
+    </Grid>
+</UserControl>

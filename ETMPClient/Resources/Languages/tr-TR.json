@@ -1,0 +1,59 @@
+{
+    "AppName": "ETMP",
+    "Navigation": {
+        "Home": "Ana Sayfa",
+        "Library": "Kütüphane",
+        "Search": "Ara",
+        "Equalizer": "Ekolayzer",
+        "Settings": "Ayarlar",
+        "Playlists": "ÇALMA LİSTELERİ"
+    },
+    "Player": {
+        "NoSongPlaying": "Şarkı Çalmıyor",
+        "UnknownArtist": "Bilinmeyen Sanatçı",
+        "Shuffle": "Karıştır",
+        "Repeat": "Tekrarla",
+        "RepeatOne": "Tekli Tekrar"
+    },
+    "Library": {
+        "Title": "KÜTÜPHANE",
+        "SearchPlaceholder": "Şarkı ara...",
+        "NoSongs": "Kütüphanede şarkı yok",
+        "AddSongs": "Başlamak için şarkı ekleyin"
+    },
+    "Equalizer": {
+        "Title": "EKOLAYZER",
+        "Preset": "Ön Ayar:",
+        "Reset": "Sıfırla",
+        "Preamp": "ÖN YÜKSELTME"
+    },
+    "Settings": {
+        "Title": "AYARLAR",
+        "VisualizerSensitivity": "Görselleştirici Hassasiyeti",
+        "VisualizerSensitivityDesc": "Ses görselleştiricisinin tepki kazancını ayarlayın.",
+        "VisualizerColor": "Görselleştirici Rengi",
+        "VisualizerOpacity": "Görselleştirici Opaklığı",
+        "VisualizerBrightness": "Görselleştirici Parlaklığı",
+        "VisualizerBarThickness": "Görselleştirici Çubuk Kalınlığı",
+        "VisualizerSpeed": "Görselleştirici Hızı",
+        "Typography": "Tipografi",
+        "SongTitleSize": "Şarkı Başlığı Boyutu",
+        "ArtistNameSize": "Sanatçı Adı Boyutu",
+        "BackgroundCornerRadius": "Arka Plan Köşe Yuvarlaklığı",
+        "Appearance": "Görünüm",
+        "DarkMode": "Karanlık Mod",
+        "GlassTransparency": "Cam Şeffaflığı",
+        "Language": "Dil",
+        "About": "Hakkında",
+        "Version": "Sürüm",
+        "Developer": "Geliştirici"
+    },
+    "Common": {
+        "Close": "Kapat",
+        "Save": "Kaydet",
+        "Cancel": "İptal",
+        "Delete": "Sil",
+        "Edit": "Düzenle",
+        "Add": "Ekle"
+    }
+}

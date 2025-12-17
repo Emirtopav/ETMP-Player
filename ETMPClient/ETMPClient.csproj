@@ -1,0 +1,130 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <RootNamespace>ETMPClient</RootNamespace>
+    <AssemblyName>ETMP Player</AssemblyName>
+    <Product>ETMP Player</Product>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Songs\**" />
+    <EmbeddedResource Remove="Songs\**" />
+    <None Remove="Songs\**" />
+    <Page Remove="Songs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\Gotham Bold.ttf" />
+    <None Remove="Fonts\Urbanist\Urbanist.otf" />
+    <None Remove="Fonts\Midnight\Midnight.otf" />
+    <None Remove="Icons\backward.png" />
+    <None Remove="Icons\discard.png" />
+    <None Remove="Icons\download.png" />
+    <None Remove="Icons\empty-folder.png" />
+    <None Remove="Icons\empty-playlist.png" />
+    <None Remove="Icons\fill.png" />
+    <None Remove="Icons\forward.png" />
+    <None Remove="Icons\Home.png" />
+    <None Remove="Icons\mute.png" />
+    <None Remove="Icons\open.png" />
+    <None Remove="Icons\palmlogo.png" />
+    <None Remove="Icons\pause.png" />
+    <None Remove="Icons\play.png" />
+    <None Remove="Icons\pldelete.png" />
+    <None Remove="Icons\search.png" />
+    <None Remove="Icons\sound.gif" />
+    <None Remove="Icons\volume.png" />
+    <None Remove="Images\palm-tree-banner.jpg" />
+    <None Remove="Images\etmp_logo.png" />
+    <None Remove="Resources\Languages\en-US.json" />
+    <None Remove="Resources\Languages\tr-TR.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LibVLCSharp" Version="3.8.5" />
+    <PackageReference Include="LibVLCSharp.WPF" Version="3.8.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="NAudio" Version="2.1.0" />
+    <PackageReference Include="SharpVectors" Version="1.8.1" />
+    <PackageReference Include="TagLibSharp" Version="2.3.0" />
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.20" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ETMPData\ETMPData.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\Urbanist\Urbanist.otf" />
+    <Resource Include="Fonts\Midnight\Midnight.otf" />
+    <Resource Include="Icons\backward.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\discard.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\download.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\empty-folder.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\empty-playlist.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\fill.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\forward.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Home.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\mute.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\open.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\palmlogo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\pause.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\play.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\pldelete.png" />
+    <Resource Include="Icons\search.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\volume.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\palm-tree-banner.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\etmp_logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Resources\Languages\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

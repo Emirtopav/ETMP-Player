@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PalmClient": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

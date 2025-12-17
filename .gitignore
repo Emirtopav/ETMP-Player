@@ -1,0 +1,36 @@
+﻿## Build Results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+## Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+## Crash Logs
+ui_crash.txt
+unhandled_crash.txt
+library_crash.txt
+equalizer_crash.txt
+## Database
+*.db
+*.db-shm
+*.db-wal
+## User Files
+songs/
+downloads/
+banners/
