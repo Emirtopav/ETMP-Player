@@ -59,8 +59,7 @@ ETMP Player is a modern, high-performance desktop music player developed using t
 
 ### 5. Customization
 - **Themes**: Support for UI theming (colors, fonts).
-- **Localization**: JSON-based localization system supporting dynamic language switching (English/Turkish).
-- **Settings**: Configurable visualizer sensitivity, bar thickness, color, and home screen typography.
+- **Settings**: Configurable home screen typography.
 
 ## Project Structure
 
@@ -75,9 +74,6 @@ ETMP Player is a modern, high-performance desktop music player developed using t
   - **`DataEntities`**: POCO classes representing database tables.
   - **`Migrations`**: Entity Framework database migration files.
 
-- **`VisualizerNative`**: C++ project for the native visualization engine.
-  - Implements DirectX 11 rendering pipeline.
-  - Exports functions for window creation and frame rendering.
 
 ## Dependencies
 
