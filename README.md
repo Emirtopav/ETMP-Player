@@ -1,7 +1,7 @@
 # ETMP Player - Project Documentation
 
 ## Project Overview
-ETMP Player is a modern, high-performance desktop music player developed using the **.NET 9** framework and **WPF** (Windows Presentation Foundation). The application is designed with a focus on audio quality, library management, and visual aesthetics, utilizing a hybrid architecture that combines C# for the application logic and C++ (DirectX) for high-performance audio visualization.
+ETMP Player is a modern, high-performance desktop music player developed using the **.NET 9** framework and **WPF** (Windows Presentation Foundation).
 
 ## Technical Architecture
 
