@@ -47,8 +47,16 @@
                  </StackPanel>
             </RadioButton>
 
+             <!-- MIDI -->
+             <RadioButton Style="{StaticResource NavButtonStyle}" 
+                          Command="{Binding NavigateMidi}">
+                  <StackPanel Orientation="Horizontal">
+                      <TextBlock Text="MIDI" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                  </StackPanel>
+             </RadioButton>
 
-             <!-- Equalizer -->
+
+              <!-- Equalizer -->
              <RadioButton Style="{StaticResource NavButtonStyle}" 
                           Command="{Binding NavigateEqualizer}"
                           IsChecked="{Binding CurrentPage, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enums:PageType.Equalizer}}">

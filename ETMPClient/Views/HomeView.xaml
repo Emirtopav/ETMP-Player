@@ -4,68 +4,62 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ETMPClient.Views"
+             xmlns:converters="clr-namespace:ETMPClient.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <converters:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
+    </UserControl.Resources>
+
     <Grid>
-        <!-- Removed RowDefinitions to allow full-screen Z-stack layout -->
-
-        <!-- Blurred Background with rounded corners -->
-        <Border CornerRadius="{Binding HomeCornerRadius}" ClipToBounds="True">
-            <Image Source="{Binding CoverArt, Converter={StaticResource ByteArrayToImageConverter}}" 
-                   Stretch="UniformToFill" 
-                   Opacity="0.4"
-                   RenderOptions.BitmapScalingMode="HighQuality">
-                <Image.Effect>
-                    <BlurEffect Radius="25"/>
-                </Image.Effect>
-            </Image>
+        <!-- Blurred Background Album Art -->
+        <Border ClipToBounds="True">
+            <Border.Background>
+                <ImageBrush ImageSource="{Binding CoverArt, Converter={StaticResource ByteArrayToImageConverter}}" 
+                            Stretch="UniformToFill" Opacity="0.15">
+                    <ImageBrush.Transform>
+                        <ScaleTransform ScaleX="1.2" ScaleY="1.2" CenterX="0.5" CenterY="0.5"/>
+                    </ImageBrush.Transform>
+                </ImageBrush>
+            </Border.Background>
+            <Border.Effect>
+                <BlurEffect Radius="80"/>
+            </Border.Effect>
         </Border>
-        
-        <!-- Dark Overlay for Readability (Increased Contrast) with rounded corners -->
-        <Border Background="{StaticResource Brush.Base.Deep}" Opacity="0.8" CornerRadius="{Binding HomeCornerRadius}"/>
 
-        <!-- Centered Content -->
+        <!-- Main Content -->
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <!-- Album Art Card -->
-            <Border Width="300" Height="300" CornerRadius="20" Margin="0,0,0,30"
-                    Background="{StaticResource Brush.Base.Surface}">
-                 <Border.Effect>
-                    <DropShadowEffect Color="Black" BlurRadius="40" ShadowDepth="10" Opacity="0.5"/>
+            <!-- Album Art -->
+            <Border Width="300" Height="300" CornerRadius="{Binding HomeCornerRadius}" 
+                    Background="{StaticResource Brush.Base.Surface}"
+                    BorderBrush="{StaticResource Brush.Border.Glass}" BorderThickness="1"
+                    HorizontalAlignment="Center" Margin="0,0,0,30"
+                    ClipToBounds="True">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="30" ShadowDepth="0"/>
                 </Border.Effect>
+                
                 <Grid>
-                     <!-- Default ETMP Logo if no art -->
-                    <Image Source="/Images/etmp_logo.png" 
-                           Width="250" Height="250"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" 
-                           Opacity="0.8"/>
+                    <!-- Fallback Icon -->
+                    <TextBlock Text="&#xE8D6;" FontFamily="Segoe MDL2 Assets" FontSize="120" 
+                               Foreground="{StaticResource Brush.Accent.Primary}" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.2"/>
                     
-                    <!-- Actual Art -->
-                    <Border CornerRadius="20" ClipToBounds="True">
-                        <Image Source="{Binding CoverArt, Converter={StaticResource ByteArrayToImageConverter}, NotifyOnTargetUpdated=True}" 
-                               Stretch="UniformToFill"
-                               RenderOptions.BitmapScalingMode="HighQuality">
-                            <Image.Triggers>
-                                <EventTrigger RoutedEvent="Binding.TargetUpdated">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Image.Triggers>
-                        </Image>
-                    </Border>
+                    <!-- Album Cover -->
+                    <Image Source="{Binding CoverArt, Converter={StaticResource ByteArrayToImageConverter}}" 
+                           Stretch="UniformToFill"
+                           RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Grid>
             </Border>
 
-            <!-- Song Info -->
+            <!-- Song Title -->
             <TextBlock Text="{Binding SongName}" 
-                       FontFamily="{StaticResource Urbanist}" FontWeight="Bold" FontSize="{Binding HomeTitleFontSize}" 
+                       FontFamily="{StaticResource Urbanist}" FontSize="{Binding HomeTitleFontSize}" FontWeight="Bold"
                        Foreground="{StaticResource Brush.Text.Primary}" 
-                       TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,10"/>
-            
+                       TextAlignment="Center" Margin="0,0,0,10"/>
+
+            <!-- Artist Name -->
             <TextBlock Text="{Binding ArtistName}" 
                        FontFamily="{StaticResource Urbanist}" FontSize="{Binding HomeArtistFontSize}" FontWeight="SemiBold"
                        Foreground="{StaticResource Brush.Text.Secondary}" 

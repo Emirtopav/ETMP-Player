@@ -29,6 +29,9 @@ namespace ETMPClient.Commands
                 case PageType.Library:
                     _navigationService.NavigateLibrary();
                     break;
+                case PageType.Midi:
+                    _navigationService.NavigateMidi();
+                    break;
                 case PageType.Settings:
                     _navigationService.NavigateSettings();
                     break;

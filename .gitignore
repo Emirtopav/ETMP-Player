@@ -31,6 +31,7 @@ equalizer_crash.txt
 *.db-shm
 *.db-wal
 ## User Files
+data/
 songs/
 downloads/
 banners/

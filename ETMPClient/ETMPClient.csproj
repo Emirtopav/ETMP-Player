@@ -6,6 +6,9 @@
     <RootNamespace>ETMPClient</RootNamespace>
     <AssemblyName>ETMP Player</AssemblyName>
     <Product>ETMP Player</Product>
+    <Version>2.2.0</Version>
+    <AssemblyVersion>2.2.0.0</AssemblyVersion>
+    <FileVersion>2.2.0.0</FileVersion>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>icon.ico</ApplicationIcon>
@@ -56,6 +59,7 @@
   <ItemGroup>
     <PackageReference Include="LibVLCSharp" Version="3.8.5" />
     <PackageReference Include="LibVLCSharp.WPF" Version="3.8.5" />
+    <PackageReference Include="Melanchall.DryWetMidi" Version="8.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="SharpVectors" Version="1.8.1" />

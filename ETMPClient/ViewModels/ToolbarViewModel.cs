@@ -56,6 +56,7 @@ namespace ETMPClient.ViewModels
         public ICommand NavigatePlaylist { get; }
         public ICommand NavigateHome { get; }
         public ICommand NavigateLibrary { get; }
+        public ICommand NavigateMidi { get; }
         public ICommand NavigateEqualizer { get; }
         public ICommand NavigateSettings { get; }
         public ICommand CreatePlaylist { get; }
@@ -93,6 +94,7 @@ namespace ETMPClient.ViewModels
             NavigateHome = new SwitchPageToHomeCommand(navigationService, playlistBrowserStore);
             NavigatePlaylist = new SwitchPageToPlaylistCommand(navigationService, playlistBrowserStore);
             NavigateLibrary = new NavigationCommand(navigationService, PageType.Library);
+            NavigateMidi = new NavigationCommand(navigationService, PageType.Midi);
             NavigateEqualizer = new NavigationCommand(navigationService, PageType.Equalizer);
             NavigateSettings = new NavigationCommand(navigationService, PageType.Settings);
             DeletePlaylist = new DeleteSpecificPlaylistAsyncCommand(musicPlayerService, navigationService, playlistBrowserStore, playlistStore, mediaStore, Playlists);

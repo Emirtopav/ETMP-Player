@@ -35,6 +35,7 @@ namespace ETMPClient.ViewModels
 
         public ICommand AddMusicCommand { get; }
         public ICommand PlaySongCommand { get; }
+        public ICommand DeleteSongCommand { get; }
 
         public LibraryViewModel(MediaStore mediaStore, IMusicPlayerService musicPlayerService)
         {
@@ -48,6 +49,7 @@ namespace ETMPClient.ViewModels
 
                 AddMusicCommand = new RelayCommand(AddMusic);
                 PlaySongCommand = new RelayCommand<MediaEntity>(PlaySong);
+                DeleteSongCommand = new RelayCommand<MediaEntity>(DeleteSong);
 
                 _ = LoadMetadataAsync();
             }
@@ -137,7 +139,7 @@ namespace ETMPClient.ViewModels
             if (openFolderDialog.ShowDialog() == true)
             {
                 var folderPath = openFolderDialog.FolderName;
-                var supportedExtensions = new[] { ".mp3", ".wav", ".flac", ".m4a", ".wma" };
+                var supportedExtensions = new[] { ".mp3", ".wav", ".flac", ".m4a", ".wma", ".mid", ".midi" };
                 
                 // Get all audio files recursively
                 var files = System.IO.Directory.GetFiles(folderPath, "*.*", System.IO.SearchOption.AllDirectories)
@@ -196,6 +198,25 @@ namespace ETMPClient.ViewModels
             if (song != null)
             {
                 _musicPlayerService.Play(song.Id);
+            }
+        }
+
+        private async void DeleteSong(MediaEntity song)
+        {
+            if (song != null)
+            {
+                // Stop playing if this song is currently playing
+                if (_musicPlayerService.CurrentMedia?.Id == song.Id)
+                {
+                    _musicPlayerService.Stop();
+                }
+
+                // Remove from database
+                await _mediaStore.Remove(song.Id);
+
+                // Remove from UI
+                Songs.Remove(song);
+                FilteredSongs.Remove(song);
             }
         }
     }

@@ -100,6 +100,10 @@ namespace ETMPClient.Services
         private List<int> _shuffleQueue = new List<int>();
         private int _currentShuffleIndex = -1;
         
+        // MIDI Player
+        private MidiPlayerService? _midiPlayer;
+        private bool _isMidiFile;
+        
         // FFT Visualizer
         private SampleAggregator? _sampleAggregator;
         private float[] _fftValues = new float[32]; // 32 bars
@@ -121,6 +125,11 @@ namespace ETMPClient.Services
         {
             get
             {
+                if (_isMidiFile)
+                {
+                    return (long)(_midiPlayer?.Position.TotalSeconds ?? 0);
+                }
+                
                 var pos = _audioFileReader?.Position / _audioFileReader?.WaveFormat.AverageBytesPerSecond ?? 0;
                 if (TotalTime < pos)
                     return TotalTime;
@@ -129,6 +138,12 @@ namespace ETMPClient.Services
             }
             set
             {
+                if (_isMidiFile)
+                {
+                    // MIDI seeking not supported in current implementation
+                    return;
+                }
+                
                 if (_audioFileReader != null)
                 {
                     _audioFileReader.Position = (long)(_audioFileReader.WaveFormat.AverageBytesPerSecond * value);
@@ -138,14 +153,34 @@ namespace ETMPClient.Services
 
         public long TotalTime
         {
-            get => _audioFileReader?.Length / _audioFileReader?.WaveFormat.AverageBytesPerSecond ?? 0;
+            get
+            {
+                if (_isMidiFile)
+                {
+                    return (long)(_midiPlayer?.Duration.TotalSeconds ?? 0);
+                }
+                return _audioFileReader?.Length / _audioFileReader?.WaveFormat.AverageBytesPerSecond ?? 0;
+            }
         }
 
         public string PlayingSongPath => _currentMedia?.FilePath ?? "";
 
         public string PlayingSongName => Path.GetFileNameWithoutExtension(_currentMedia?.FilePath) ?? "";
 
-        public PlaybackState PlayerState => _waveOutDevice?.PlaybackState ?? PlaybackState.Stopped;
+        public PlaybackState PlayerState
+        {
+            get
+            {
+                if (_isMidiFile)
+                {
+                    if (_midiPlayer == null) return PlaybackState.Stopped;
+                    if (_midiPlayer.IsPaused) return PlaybackState.Paused;
+                    if (_midiPlayer.IsPlaying) return PlaybackState.Playing;
+                    return PlaybackState.Stopped;
+                }
+                return _waveOutDevice?.PlaybackState ?? PlaybackState.Stopped;
+            }
+        }
 
         public MusicPlayerService(MediaStore mediaStore)
         {
@@ -156,7 +191,7 @@ namespace ETMPClient.Services
 
         public void ChangeVolume(float volume)
         {
-            throw new NotImplementedException();
+            Volume = volume;
         }
 
         public void PlayPause()
@@ -174,13 +209,19 @@ namespace ETMPClient.Services
         
         public void Pause()
         {
-            _waveOutDevice?.Pause();
+            if (_isMidiFile)
+                _midiPlayer?.Pause();
+            else
+                _waveOutDevice?.Pause();
             OnPausePlay();
         }
 
         public void Resume()
         {
-            _waveOutDevice?.Play();
+            if (_isMidiFile)
+                _midiPlayer?.Resume();
+            else
+                _waveOutDevice?.Play();
             OnStartPlay();
         }
         public void Play(int mediaId)
@@ -189,47 +230,75 @@ namespace ETMPClient.Services
             _currentMedia = _mediaStore.Songs.FirstOrDefault(x => x.Id == mediaId);
             if (_currentMedia != null)
             {
+                // Check if file is MIDI
+                var extension = Path.GetExtension(_currentMedia.FilePath ?? "").ToLower();
+                _isMidiFile = extension == ".mid" || extension == ".midi";
+
+                // ALWAYS stop and cleanup both players before starting new playback
                 _waveOutDevice?.Stop();
                 _waveOutDevice?.Dispose();
+                _waveOutDevice = null;
+                
+                _midiPlayer?.Stop();
+                _midiPlayer?.Dispose();
+                _midiPlayer = null;
+                
+                _audioFileReader?.Dispose();
+                _audioFileReader = null;
 
-                try
+                if (_isMidiFile)
                 {
-                    _audioFileReader = new AudioFileReader(_currentMedia.FilePath);
-                    
-                    // Initialize FFT aggregator
-                    _sampleAggregator = new SampleAggregator(1024);
-                    _sampleAggregator.FftCalculated += OnFftCalculated;
-                    
-                    // Create a sample provider that captures samples for FFT
-                    var sampleProvider = _audioFileReader.ToSampleProvider();
-                    var capturingSampleProvider = new CapturingSampleProvider(sampleProvider, _sampleAggregator);
-                    
-                    // Create equalizer and insert into audio chain
-                    _equalizer = new EqualizerSampleProvider(capturingSampleProvider);
-                    
-                    // Apply current preset
-                    if (!string.IsNullOrEmpty(CurrentEqPreset) && EqualizerPresets.Presets.ContainsKey(CurrentEqPreset))
+                    // Play MIDI file
+                    try
                     {
-                        var presetValues = EqualizerPresets.Presets[CurrentEqPreset];
+                        _midiPlayer = new MidiPlayerService();
+                        _midiPlayer.PlaybackStopped += (s, e) => OnStoppedPlay(s, new StoppedEventArgs());
+                        _midiPlayer.LoadFile(_currentMedia.FilePath ?? "");
+                        _midiPlayer.Play();
+                        OnStartPlay();
+                    }
+                    catch
+                    {
+                        Stop();
+                    }
+                }
+                else
+                {
+                    // Play audio file
+                    try
+                    {
+                        _audioFileReader = new AudioFileReader(_currentMedia.FilePath);
+                        
+                        // Initialize FFT aggregator
+                        _sampleAggregator = new SampleAggregator(1024);
+                        _sampleAggregator.FftCalculated += OnFftCalculated;
+                        
+                        // Create a sample provider that captures samples for FFT
+                        var sampleProvider = _audioFileReader.ToSampleProvider();
+                        var capturingSampleProvider = new CapturingSampleProvider(sampleProvider, _sampleAggregator);
+                        
+                        // Create equalizer and insert into audio chain
+                        _equalizer = new EqualizerSampleProvider(capturingSampleProvider);
+                        
+                        // Always apply current equalizer band values
                         for (int i = 0; i < 10; i++)
                         {
-                            _equalizer.SetBandGain(i, presetValues[i]);
-                            EqualizerBands[i] = presetValues[i];
+                            _equalizer.SetBandGain(i, EqualizerBands[i]);
                         }
+                        
+                        // Convert back to IWaveProvider for WaveOut
+                        _audioFile = _equalizer.ToWaveProvider();
+                        
+                        _waveOutDevice = new WaveOut();
+                        _waveOutDevice.PlaybackStopped += OnStoppedPlay;
+                        _waveOutDevice.Init(_audioFile);
+                        _waveOutDevice.Play();
+                        OnStartPlay();
                     }
-                    
-                    // Convert back to IWaveProvider for WaveOut
-                    _audioFile = _equalizer.ToWaveProvider();
-                    
-                    _waveOutDevice = new WaveOut();
-                    _waveOutDevice.PlaybackStopped += OnStoppedPlay;
-                    _waveOutDevice.Init(_audioFile);
-                    _waveOutDevice.Play();
-                    OnStartPlay();
-                }
-                catch
-                {
-                    Stop();
+                    catch
+                    {
+                        Stop();
+                    }
                 }
             }
         }
@@ -252,18 +321,35 @@ namespace ETMPClient.Services
 
         public void Stop()
         {
+            bool wasMidiFile = _isMidiFile;
+            
+            if (_isMidiFile)
+            {
+                _midiPlayer?.Stop();
+                _midiPlayer?.Dispose();
+                _midiPlayer = null;
+            }
+            else
+            {
+                _audioFileReader?.Dispose();
+                _audioFileReader = null;
+                (_audioFile as IDisposable)?.Dispose();
+                _audioFile = null;
+                _waveOutDevice?.Stop();
+                _waveOutDevice?.Dispose();
+            }
+            
             _currentMedia = null;
-            _audioFileReader?.Dispose();
-            _audioFileReader = null;
-            (_audioFile as IDisposable)?.Dispose();
-            _audioFile = null;
-            _waveOutDevice?.Stop();
-            _waveOutDevice?.Dispose();
+            _isMidiFile = false;
 
             OnStoppedPlay(this, null);
 
-            _waveOutDevice = new WaveOut();
-            _waveOutDevice.PlaybackStopped += OnStoppedPlay;
+            // Only recreate WaveOut if we weren't playing MIDI
+            if (!wasMidiFile)
+            {
+                _waveOutDevice = new WaveOut();
+                _waveOutDevice.PlaybackStopped += OnStoppedPlay;
+            }
         }
 
         public void PlayNext(bool callStoppedPlay = true)
@@ -368,15 +454,10 @@ namespace ETMPClient.Services
                         // Create equalizer and insert into audio chain
                         _equalizer = new EqualizerSampleProvider(_audioFileReader.ToSampleProvider());
                         
-                        // Apply current preset
-                        if (!string.IsNullOrEmpty(CurrentEqPreset) && EqualizerPresets.Presets.ContainsKey(CurrentEqPreset))
+                        // Always apply current equalizer band values
+                        for (int i = 0; i < 10; i++)
                         {
-                            var presetValues = EqualizerPresets.Presets[CurrentEqPreset];
-                            for (int i = 0; i < 10; i++)
-                            {
-                                _equalizer.SetBandGain(i, presetValues[i]);
-                                EqualizerBands[i] = presetValues[i];
-                            }
+                            _equalizer.SetBandGain(i, EqualizerBands[i]);
                         }
                         
                         // Convert back to IWaveProvider for WaveOut

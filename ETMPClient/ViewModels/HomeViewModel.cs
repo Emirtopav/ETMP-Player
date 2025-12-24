@@ -21,7 +21,6 @@ using System.Windows;
 using ETMPClient.Extensions;
 using ETMPClient.Core;
 using ETMPClient.Enums;
-using static System.Net.WebRequestMethods;
 
 namespace ETMPClient.ViewModels
 {
@@ -65,7 +64,6 @@ namespace ETMPClient.ViewModels
         }
 
         public double HomeCornerRadius => _musicPlayerService.HomeCornerRadius;
-
         public double HomeTitleFontSize => _musicPlayerService.HomeTitleFontSize;
         public double HomeArtistFontSize => _musicPlayerService.HomeArtistFontSize;
 
@@ -73,21 +71,6 @@ namespace ETMPClient.ViewModels
         {
             _musicPlayerService = musicPlayerService;
             OpenLink = new OpenLinkCommand();
-
-            // Re-broadcast property changes if settings change
-            // Ideally we'd subscribe to an event, but for now we rely on UI binding updates or manual refresh if needed.
-            // Since Service properties are simple auto-props, we might need a mechanism to notify this VM.
-            // For simplicity in this session, we'll assume the view re-reads it or we accept it updates on restart/nav, 
-            // BUT to make it reactive, we should hook into PropertyChanged if Service implemented it. 
-            // Current Service doesn't implement INotifyPropertyChanged. 
-            // We will fix this by making Service notify, or just binding directly to Service in XAML via ObjectDataProvider? 
-            // Easier: just expose them here. To make them update live, we'd need an event.
-            // Let's add a simple 'Refresh' or just accept they update on navigation for now?
-            // User asked for settings, implies live update.
-            // Strategy: I will add `OnSettingChanged` event to Service later if needed, 
-            // but for now let's just expose them.
-            // Wait, I can bind directly to the Service singleton if I registered it as a resource, but that's messy.
-            // I'll make the properties pass-through.
             
             _musicPlayerService.MusicPlayerEvent += OnMusicPlayerEvent;
             UpdateSongInfo();
@@ -120,6 +103,5 @@ namespace ETMPClient.ViewModels
             _musicPlayerService.MusicPlayerEvent -= OnMusicPlayerEvent;
             base.Dispose();
         }
-
     }
 }

@@ -21,6 +21,7 @@ namespace ETMPClient.Extensions
             collection.AddTransient<HomeViewModel>();
             collection.AddTransient<PlaylistViewModel>();
             collection.AddTransient<LibraryViewModel>();
+            collection.AddTransient<MidiViewModel>();
             // collection.AddTransient<SearchViewModel>(); // TEMPORARILY DISABLED - causing crashes
             collection.AddTransient<SettingsViewModel>();
             collection.AddTransient<EqualizerViewModel>();
@@ -46,6 +47,7 @@ namespace ETMPClient.Extensions
                     () => s.GetRequiredService<HomeViewModel>(),
                     () => s.GetRequiredService<PlaylistViewModel>(),
                     () => s.GetRequiredService<LibraryViewModel>(),
+                    () => s.GetRequiredService<MidiViewModel>(),
                     () => s.GetRequiredService<SettingsViewModel>(),
                     () => s.GetRequiredService<EqualizerViewModel>()
             ));
@@ -56,6 +58,7 @@ namespace ETMPClient.Extensions
         public static IServiceCollection AddServices(this IServiceCollection collection)
         {
             collection.AddSingleton<IMusicPlayerService, MusicPlayerService>();
+            collection.AddSingleton<MidiPlayerService>();
             return collection;
         }
 

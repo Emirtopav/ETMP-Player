@@ -11,6 +11,7 @@ namespace ETMPClient.Enums
         Home,
         Playlist,
         Library,
+        Midi,
         Settings,
         Equalizer
     }

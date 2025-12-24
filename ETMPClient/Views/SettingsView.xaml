@@ -22,111 +22,6 @@
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
             <StackPanel>
-                <!-- Visualizer Settings -->
-                <Border Background="{StaticResource Brush.Base.Surface}" CornerRadius="10" Padding="15" Margin="0,0,0,20">
-                    <StackPanel>
-                        <TextBlock Text="Visualizer Sensitivity" FontFamily="{StaticResource Urbanist}" FontWeight="Bold" FontSize="16" Foreground="{StaticResource Brush.Text.Primary}"/>
-                        <TextBlock Text="Adjust the reactivity gain of the audio visualizer." FontFamily="{StaticResource Urbanist}" FontSize="12" Foreground="{StaticResource Brush.Text.Muted}" Margin="0,5,0,15"/>
-                        
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Slider Minimum="0.1" Maximum="5.0" Value="{Binding VisualizerSensitivity}" 
-                                    Style="{StaticResource PrettySlider}" 
-                                    TickFrequency="0.1" IsSnapToTickEnabled="True"/>
-                            
-                            <TextBlock Grid.Column="1" Text="{Binding VisualizerSensitivity, StringFormat=N1}" 
-                                       FontFamily="{StaticResource Urbanist}" Foreground="{StaticResource Brush.Text.Primary}" 
-                                       VerticalAlignment="Center" Margin="15,0,0,0" Width="30"/>
-                        </Grid>
-
-                        <TextBlock Text="Visualizer Color" FontFamily="{StaticResource Urbanist}" FontSize="12" Foreground="{StaticResource Brush.Text.Muted}" Margin="0,15,0,5"/>
-                        <ComboBox SelectedValue="{Binding VisualizerColorHex}" SelectedValuePath="Tag" HorizontalAlignment="Stretch" Style="{StaticResource {x:Type ComboBox}}">
-                            <ComboBoxItem Content="Default Green" Tag="#1DB954"/>
-                            <ComboBoxItem Content="Blue" Tag="#3F51B5"/>
-                            <ComboBoxItem Content="Red" Tag="#E53935"/>
-                            <ComboBoxItem Content="Purple" Tag="#9C27B0"/>
-                            <ComboBoxItem Content="Orange" Tag="#FF9800"/>
-                             <ComboBoxItem Content="Cyan" Tag="#00BCD4"/>
-                              <ComboBoxItem Content="White" Tag="#FFFFFF"/>
-                              <ComboBoxItem Content="Black" Tag="#000000"/>
-                        </ComboBox>
-
-                        <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Settings.VisualizerOpacity}" FontFamily="{StaticResource Urbanist}" FontSize="12" Foreground="{StaticResource Brush.Text.Muted}" Margin="0,15,0,5"/>
-                        <Grid Margin="0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Slider Minimum="0.1" Maximum="1.0" Value="{Binding VisualizerOpacity}" 
-                                    Style="{StaticResource PrettySlider}" 
-                                    TickFrequency="0.05" IsSnapToTickEnabled="True"/>
-                            
-                            <TextBlock Grid.Column="1" Text="{Binding VisualizerOpacity, StringFormat=N2}" 
-                                       FontFamily="{StaticResource Urbanist}" Foreground="{StaticResource Brush.Text.Primary}" 
-                                       VerticalAlignment="Center" Margin="15,0,0,0" Width="40"/>
-                        </Grid>
-
-                        <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Settings.VisualizerBrightness}" FontFamily="{StaticResource Urbanist}" FontSize="12" Foreground="{StaticResource Brush.Text.Muted}" Margin="0,15,0,5"/>
-                        <Grid Margin="0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Slider Minimum="0.5" Maximum="3.0" Value="{Binding VisualizerBrightness}" 
-                                    Style="{StaticResource PrettySlider}" 
-                                    TickFrequency="0.1" IsSnapToTickEnabled="True"/>
-                            
-                            <TextBlock Grid.Column="1" Text="{Binding VisualizerBrightness, StringFormat=N1}" 
-                                       FontFamily="{StaticResource Urbanist}" Foreground="{StaticResource Brush.Text.Primary}" 
-                                       VerticalAlignment="Center" Margin="15,0,0,0" Width="40"/>
-                        </Grid>
-
-                        <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Settings.VisualizerBarThickness}" FontFamily="{StaticResource Urbanist}" FontSize="12" Foreground="{StaticResource Brush.Text.Muted}" Margin="0,15,0,5"/>
-                        <Grid Margin="0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Slider Minimum="2" Maximum="10" Value="{Binding VisualizerBarThickness}" 
-                                    Style="{StaticResource PrettySlider}" 
-                                    TickFrequency="1" IsSnapToTickEnabled="True"/>
-                            
-                            <TextBlock Grid.Column="1" Text="{Binding VisualizerBarThickness, StringFormat='{}{0:F0}px'}" 
-                                       FontFamily="{StaticResource Urbanist}" Foreground="{StaticResource Brush.Text.Primary}" 
-                                       VerticalAlignment="Center" Margin="15,0,0,0" Width="50"/>
-                        </Grid>
-
-                        <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Settings.VisualizerSpeed}" FontFamily="{StaticResource Urbanist}" FontSize="12" Foreground="{StaticResource Brush.Text.Muted}" Margin="0,15,0,5"/>
-                        <Grid Margin="0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Slider Minimum="0.1" Maximum="1.0" Value="{Binding VisualizerSpeed}" 
-                                    Style="{StaticResource PrettySlider}" 
-                                    TickFrequency="0.1" IsSnapToTickEnabled="True"/>
-                            
-                            <TextBlock Grid.Column="1" Text="{Binding VisualizerSpeed, StringFormat=N1}" 
-                                       FontFamily="{StaticResource Urbanist}" Foreground="{StaticResource Brush.Text.Primary}" 
-                                       VerticalAlignment="Center" Margin="15,0,0,0" Width="40"/>
-                        </Grid>
-
-                        <TextBlock Text="Theme" FontFamily="{StaticResource Urbanist}" FontSize="12" Foreground="{StaticResource Brush.Text.Muted}" Margin="0,15,0,5"/>
-                        <ComboBox ItemsSource="{Binding AvailableThemes}" 
-                                  SelectedItem="{Binding SelectedTheme}" 
-                                  FontFamily="{StaticResource Urbanist}" FontSize="14"
-                                  Style="{StaticResource {x:Type ComboBox}}"/>
-                    </StackPanel>
-                </Border>
-
                 <!-- Font Settings -->
                 <Border Background="{StaticResource Brush.Base.Surface}" CornerRadius="10" Padding="15" Margin="0,0,0,20">
                     <StackPanel>
@@ -188,7 +83,7 @@
                         
                         <StackPanel Orientation="Horizontal" Margin="0,5">
                             <TextBlock Text="{Binding Converter={StaticResource Localize}, ConverterParameter=Settings.Version}" Width="100" Foreground="{StaticResource Brush.Text.Muted}" FontFamily="{StaticResource Urbanist}"/>
-                            <TextBlock Text="2.0.0 (ETMP Reborn)" Foreground="{StaticResource Brush.Text.Primary}" FontFamily="{StaticResource Urbanist}"/>
+                            <TextBlock Text="2.2.0 (ETMP Reborn)" Foreground="{StaticResource Brush.Text.Primary}" FontFamily="{StaticResource Urbanist}"/>
                         </StackPanel>
                         
                         <StackPanel Orientation="Horizontal" Margin="0,5">

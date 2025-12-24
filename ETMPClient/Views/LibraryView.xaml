@@ -46,13 +46,13 @@
 
         <!-- Header / Add Button -->
         <Grid Grid.Row="0" Margin="0,20,0,20">
-            <TextBlock Text="LIBRARY" FontFamily="{StaticResource Urbanist}" FontWeight="Bold" FontSize="28" Foreground="{StaticResource Brush.Text.Primary}" VerticalAlignment="Center"/>
+            <TextBlock Text="LIBRARY" FontFamily="{StaticResource Urbanist}" FontWeight="Bold" FontSize="28" Foreground="{StaticResource Brush.Text.Primary}" VerticalAlignment="Center" Margin="30,0,0,0"/>
             
             <Button Command="{Binding AddMusicCommand}" HorizontalAlignment="Right" VerticalAlignment="Center"
                     ToolTip="Add Music Folder"
                     Foreground="{StaticResource Brush.Text.Primary}"
                     Width="40" Height="40"
-                    Background="{StaticResource Brush.Base.Surface}"
+                    Background="#1A1A1A"
                     BorderBrush="{StaticResource Brush.Border.Glass}"
                     BorderThickness="1">
                 <Button.Content>
@@ -147,6 +147,32 @@
                 <Style TargetType="ListViewItem">
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Margin" Value="0,0,0,10"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu Background="{StaticResource Brush.Base.Surface}" 
+                                        BorderBrush="{StaticResource Brush.Border.Glass}">
+                                <MenuItem Header="Play" 
+                                         Command="{Binding DataContext.PlaySongCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                         CommandParameter="{Binding}"
+                                         Foreground="{StaticResource Brush.Text.Primary}">
+                                    <MenuItem.Icon>
+                                        <TextBlock Text="&#xE768;" FontFamily="Segoe MDL2 Assets" 
+                                                  Foreground="{StaticResource Brush.Accent.Primary}"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator Background="{StaticResource Brush.Border.Glass}"/>
+                                <MenuItem Header="Delete" 
+                                         Command="{Binding DataContext.DeleteSongCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                         CommandParameter="{Binding}"
+                                         Foreground="{StaticResource Brush.Text.Primary}">
+                                    <MenuItem.Icon>
+                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" 
+                                                  Foreground="#E53935"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListViewItem">

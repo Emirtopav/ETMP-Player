@@ -16,6 +16,7 @@ namespace ETMPClient.Services
         public void NavigateHome();
         public void NavigatePlaylist();
         public void NavigateLibrary();
+        public void NavigateMidi();
         public void NavigateSettings();
         public void NavigateEqualizer();
     }
@@ -26,6 +27,7 @@ namespace ETMPClient.Services
         private readonly Func<HomeViewModel>? _homeViewModelFunc;
         private readonly Func<PlaylistViewModel>? _playlistViewModelFunc;
         private readonly Func<LibraryViewModel>? _libraryViewModelFunc;
+        private readonly Func<MidiViewModel>? _midiViewModelFunc;
         private readonly Func<SettingsViewModel>? _settingsViewModelFunc;
         private readonly Func<EqualizerViewModel>? _equalizerViewModelFunc;
 
@@ -34,13 +36,15 @@ namespace ETMPClient.Services
 
         public NavigationService(Func<MainViewModel> mainViewModelFunc, Func<HomeViewModel> homeViewModelFunc,
                                  Func<PlaylistViewModel> playlistViewModelFunc,
-                                 Func<LibraryViewModel> libraryViewModelFunc, Func<SettingsViewModel> settingsViewModelFunc,
+                                 Func<LibraryViewModel> libraryViewModelFunc, Func<MidiViewModel> midiViewModelFunc,
+                                 Func<SettingsViewModel> settingsViewModelFunc,
                                  Func<EqualizerViewModel> equalizerViewModelFunc)
         {
             _mainViewModelFunc = mainViewModelFunc;
             _homeViewModelFunc = homeViewModelFunc;
             _playlistViewModelFunc = playlistViewModelFunc;
             _libraryViewModelFunc = libraryViewModelFunc;
+            _midiViewModelFunc = midiViewModelFunc;
             _settingsViewModelFunc = settingsViewModelFunc;
             _equalizerViewModelFunc = equalizerViewModelFunc;
         }
@@ -80,6 +84,19 @@ namespace ETMPClient.Services
             {
                 mainVm.CurrentView = libraryVm;
                 CurrentPage = PageType.Library;
+                PageChangedEvent?.Invoke(this, new PageChangedEventArgs(CurrentPage));
+            }
+        }
+
+        public void NavigateMidi()
+        {
+            var mainVm = _mainViewModelFunc?.Invoke();
+            var midiVm = _midiViewModelFunc?.Invoke();
+
+            if (mainVm != null && mainVm.CurrentView is not MidiViewModel)
+            {
+                mainVm.CurrentView = midiVm;
+                CurrentPage = PageType.Midi;
                 PageChangedEvent?.Invoke(this, new PageChangedEventArgs(CurrentPage));
             }
         }

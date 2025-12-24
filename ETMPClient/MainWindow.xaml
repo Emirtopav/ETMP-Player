@@ -38,6 +38,9 @@
         <DataTemplate DataType="{x:Type viewModels:PlaylistViewModel}">
             <views:PlaylistView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:MidiViewModel}">
+            <views:MidiView/>
+        </DataTemplate>
     </Window.Resources>
 
     <Border Background="{StaticResource Brush.Base.Void}" CornerRadius="10" ClipToBounds="True">

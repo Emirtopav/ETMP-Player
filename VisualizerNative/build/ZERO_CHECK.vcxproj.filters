@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\emirt\Desktop\C#\PalmPlayer-main\VisualizerNative\build\CMakeFiles\81ad9586c5df5ac7c2a541445f524960\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B626BA2B-0308-37EF-A371-E0E6164183F0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

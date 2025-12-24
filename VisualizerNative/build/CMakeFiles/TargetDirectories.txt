@@ -1,0 +1,3 @@
+C:/Users/emirt/Desktop/C#/PalmPlayer-main/VisualizerNative/build/CMakeFiles/VisualizerNative.dir
+C:/Users/emirt/Desktop/C#/PalmPlayer-main/VisualizerNative/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/emirt/Desktop/C#/PalmPlayer-main/VisualizerNative/build/CMakeFiles/ZERO_CHECK.dir
